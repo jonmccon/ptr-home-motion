@@ -1,0 +1,259 @@
+/* =====================================================================
+   RELIEF CAROUSEL — styles
+   Every rule is scoped under .relief-carousel so nothing leaks into the
+   host page (and the host page can't easily clobber the widget either).
+   ===================================================================== */
+
+.relief-carousel {
+  /* ---- Tokens (scoped to the widget, not :root) ---- */
+  --rc-brand-green: #047B44;
+  --rc-brand-green-deep: #035a31;
+  --rc-accent: #f15a2b;
+
+  --rc-card-w: 620px;
+  --rc-card-h: 300px;
+
+  --rc-ease: cubic-bezier(0.65, 0, 0.35, 1);
+  --rc-dur: 700ms;
+
+  /* layout */
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.relief-carousel *,
+.relief-carousel *::before,
+.relief-carousel *::after { box-sizing: border-box; }
+
+/* ---- Panel (green hero) ---- */
+.relief-carousel .rc-panel {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  min-height: 600px;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: var(--rc-brand-green-deep);
+  background-image:
+    linear-gradient(to bottom, rgba(4,123,68,1) 0%, rgba(4,123,68,0) 35%, rgba(4,123,68,0) 100%),
+    url("assets/bg-wood-trust.png");
+  background-size: auto, cover;
+  background-position: center, center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 56px 24px 56px;
+  user-select: none;
+}
+
+.relief-carousel .rc-panel-head {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  max-width: 720px;
+  color: #fff;
+}
+.relief-carousel .rc-panel-head h2 {
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 14px;
+  text-wrap: balance;
+}
+.relief-carousel .rc-panel-head p {
+  font-size: clamp(14px, 1.1vw, 16px);
+  line-height: 1.55;
+  color: rgba(255,255,255,0.92);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+/* ---- Dots ---- */
+.relief-carousel .rc-dots {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 22px 0 0;
+}
+.relief-carousel .rc-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.55);
+  border: 0;
+  cursor: pointer;
+  padding: 0;
+  transition: all 220ms var(--rc-ease);
+}
+.relief-carousel .rc-dot.is-active {
+  background: var(--rc-accent);
+  transform: scale(1.15);
+}
+
+/* ---- Carousel viewport ---- */
+.relief-carousel .rc-carousel {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  height: var(--rc-card-h);
+  perspective: 1800px;
+  perspective-origin: 50% 50%;
+  margin-top: 22px;
+  z-index: 4;
+  overflow: visible;
+  /* container query unit so side cards anchor to the carousel edges */
+  container-type: inline-size;
+}
+
+.relief-carousel .rc-track {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  touch-action: pan-y;
+}
+
+/* ---- Cards ---- */
+.relief-carousel .rc-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--rc-card-w);
+  height: var(--rc-card-h);
+  margin-left: calc(var(--rc-card-w) / -2);
+  margin-top: calc(var(--rc-card-h) / -2);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #ffffff;
+  color: #1d1d1d;
+  box-shadow:
+    0 24px 48px -16px rgba(0,0,0,0.45),
+    0 8px 20px -10px rgba(0,0,0,0.4);
+  transform-style: preserve-3d;
+  transition:
+    transform var(--rc-dur) var(--rc-ease),
+    opacity var(--rc-dur) var(--rc-ease),
+    filter var(--rc-dur) var(--rc-ease),
+    box-shadow var(--rc-dur) var(--rc-ease);
+  cursor: pointer;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  align-items: center;
+  gap: 26px;
+  padding: 28px 34px;
+}
+
+.relief-carousel .rc-card .rc-icon {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.relief-carousel .rc-card .rc-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+.relief-carousel .rc-card .rc-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1d1d1d;
+  margin: 0 0 10px;
+  letter-spacing: -0.015em;
+}
+.relief-carousel .rc-card .rc-desc {
+  font-size: 14px;
+  line-height: 1.55;
+  color: #3a3a3a;
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.relief-carousel .rc-card[data-pos="0"] { cursor: default; }
+.relief-carousel .rc-card:not([data-pos="0"]) { filter: brightness(0.78); }
+
+/* z-stacking so the active card sits on top */
+.relief-carousel .rc-card[data-pos="-2"],
+.relief-carousel .rc-card[data-pos="2"]  { z-index: 1; }
+.relief-carousel .rc-card[data-pos="-1"],
+.relief-carousel .rc-card[data-pos="1"]  { z-index: 10; }
+.relief-carousel .rc-card[data-pos="0"]  { z-index: 50 !important; }
+
+/* ---- ROTATE transition ----
+   Active card faces front; side cards tilt on the Z axis and peek in from
+   the carousel edges. */
+.relief-carousel .rc-card[data-pos="0"]  { transform: translateX(0)                       rotateZ(0)      scale(1);    opacity: 1;   }
+.relief-carousel .rc-card[data-pos="-1"] { transform: translateX(calc(-50cqw - 196px))    rotateZ(-10deg) scale(0.86); opacity: 0.1; }
+.relief-carousel .rc-card[data-pos="1"]  { transform: translateX(calc(50cqw + 196px))     rotateZ(10deg)  scale(0.86); opacity: 0.1; }
+.relief-carousel .rc-card[data-pos="-2"] { transform: translateX(calc(-50cqw - 700px))    rotateZ(-18deg) scale(0.7);  opacity: 0;   }
+.relief-carousel .rc-card[data-pos="2"]  { transform: translateX(calc(50cqw + 700px))     rotateZ(18deg)  scale(0.7);  opacity: 0;   }
+
+/* ---- Nav arrows ---- */
+.relief-carousel .rc-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.45);
+  background: rgba(255,255,255,0.12);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  transition: background 200ms, border-color 200ms, transform 200ms;
+}
+.relief-carousel .rc-nav:hover { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.8); }
+.relief-carousel .rc-nav:active { transform: translateY(-50%) scale(0.94); }
+.relief-carousel .rc-prev { left: 12px; }
+.relief-carousel .rc-next { right: 12px; }
+.relief-carousel .rc-nav svg { width: 20px; height: 20px; }
+
+/* ---- Drag / wrap-around helpers ---- */
+.relief-carousel .rc-carousel.is-dragging .rc-card { transition: none !important; }
+.relief-carousel .rc-card.is-fading { opacity: 0 !important; transition: opacity 220ms ease !important; }
+.relief-carousel .rc-card.no-transition { transition: none !important; }
+
+/* ---- Mobile ---- */
+@media (max-width: 900px) {
+  .relief-carousel {
+    --rc-card-w: 320px;
+    --rc-card-h: 400px;
+  }
+  .relief-carousel .rc-panel { min-height: 560px; }
+  .relief-carousel .rc-card {
+    grid-template-columns: 1fr;
+    grid-template-rows: 130px 1fr;
+    gap: 16px;
+    padding: 24px 22px;
+    justify-items: center;
+    text-align: center;
+  }
+  .relief-carousel .rc-card .rc-icon { width: 110px; }
+  .relief-carousel .rc-card .rc-title { font-size: 20px; margin-bottom: 8px; }
+  .relief-carousel .rc-card .rc-desc  { font-size: 13px; line-height: 1.55; }
+
+  /* ROTATE — Z-axis tilt, fixed-pixel peek (no cqw needed at this size) */
+  .relief-carousel .rc-card[data-pos="0"]  { transform: translateX(0)      rotateZ(0)      scale(1);    opacity: 1;   }
+  .relief-carousel .rc-card[data-pos="-1"] { transform: translateX(-260px) rotateZ(-10deg) scale(0.78); opacity: 0.1; }
+  .relief-carousel .rc-card[data-pos="1"]  { transform: translateX(260px)  rotateZ(10deg)  scale(0.78); opacity: 0.1; }
+  .relief-carousel .rc-card[data-pos="-2"] { transform: translateX(-380px) rotateZ(-18deg) scale(0.6);  opacity: 0;   }
+  .relief-carousel .rc-card[data-pos="2"]  { transform: translateX(380px)  rotateZ(18deg)  scale(0.6);  opacity: 0;   }
+
+  .relief-carousel .rc-prev { left: 4px; }
+  .relief-carousel .rc-next { right: 4px; }
+}

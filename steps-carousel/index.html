@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>3 Steps to Relief — Rotate Carousel</title>
+
+<!-- Fonts: hosted by Google. Remove these two tags if you want the carousel
+     to inherit the host page's font instead. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- =====================================================================
+     RELIEF CAROUSEL — drop-in widget
+     Everything is namespaced under .relief-carousel so it won't collide
+     with the host page's CSS. To embed elsewhere, copy the block below
+     (plus styles.css, script.js and the assets/ folder).
+     ===================================================================== -->
+<div class="relief-carousel" id="reliefCarousel">
+  <div class="rc-panel">
+
+    <div class="rc-panel-head">
+      <h2>3 Steps to Relief</h2>
+      <p>Our experienced team of tax professionals understands the IRS system, procedures, and resolution programs. We act quickly to protect you, evaluate your full financial picture, and determine the most effective path toward resolution.</p>
+    </div>
+
+    <div class="rc-dots" data-rc-dots></div>
+
+    <div class="rc-carousel" data-rc-carousel>
+      <button class="rc-nav rc-prev" aria-label="Previous" data-rc-prev>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+
+      <div class="rc-track" data-rc-track></div>
+
+      <button class="rc-nav rc-next" aria-label="Next" data-rc-next>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

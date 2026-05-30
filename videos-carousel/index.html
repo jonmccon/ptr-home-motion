@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rotate Video Carousel</title>
+
+  <!-- Inter font (external, optional — remove this line to fall back to system fonts) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Carousel styles -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- =========================================================
+       DROP-IN VIDEO CAROUSEL
+       Everything lives inside .vc-root so it won't collide with
+       your host page. Edit the video list at the top of script.js.
+       ========================================================= -->
+  <div class="vc-root" id="vc-root">
+    <h2 class="vc-title">Real People. Real Relief.</h2>
+
+    <div class="vc-stage">
+      <button class="vc-nav vc-nav--prev" id="vc-prev" type="button" aria-label="Previous">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+      </button>
+
+      <div class="vc-carousel">
+        <div class="vc-track" id="vc-track"><!-- cards injected by script.js --></div>
+      </div>
+
+      <button class="vc-nav vc-nav--next" id="vc-next" type="button" aria-label="Next">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+      </button>
+    </div>
+
+    <div class="vc-controls">
+      <div class="vc-dots" id="vc-dots"><!-- dots injected by script.js --></div>
+    </div>
+  </div>
+
+  <!-- Carousel logic -->
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+/* =============================================================
+   ROTATE VIDEO CAROUSEL — styles
+   All rules are scoped under .vc-root so they won't affect the
+   rest of your page. Tweak the variables in .vc-root to restyle.
+   ============================================================= */
+
+.vc-root {
+  /* ---- Theme variables ---- */
+  --vc-bg: #047B44;          /* background behind the carousel  */
+  --vc-card-w: 320px;        /* active card width               */
+  --vc-card-h: 568px;        /* active card height (9:16)        */
+  --vc-border: #ffffff;      /* white card border               */
+  --vc-text: #ffffff;
+  --vc-ease: cubic-bezier(0.65, 0, 0.35, 1);
+  --vc-duration: 700ms;      /* transition speed                */
+
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 40px 16px 48px;
+  background: var(--vc-bg);
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  overflow: hidden;
+}
+.vc-root *,
+.vc-root *::before,
+.vc-root *::after { box-sizing: border-box; }
+
+/* ---- Title ---- */
+.vc-title {
+  color: var(--vc-text);
+  font-size: clamp(24px, 3vw, 38px);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  text-align: center;
+  margin: 0 0 36px;
+}
+
+/* ---- Stage + nav arrows ---- */
+.vc-stage {
+  position: relative;
+  width: 100%;
+  max-width: 1280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vc-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.12);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  transition: background 200ms, border-color 200ms, transform 200ms;
+}
+.vc-nav:hover { background: rgba(255, 255, 255, 0.22); border-color: rgba(255, 255, 255, 0.7); }
+.vc-nav:active { transform: translateY(-50%) scale(0.94); }
+.vc-nav--prev { left: 16px; }
+.vc-nav--next { right: 16px; }
+.vc-nav svg { width: 22px; height: 22px; }
+
+/* ---- Carousel 3D space ---- */
+.vc-carousel {
+  position: relative;
+  width: 100%;
+  height: var(--vc-card-h);
+  perspective: 1600px;
+  perspective-origin: 50% 50%;
+}
+.vc-track {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  touch-action: pan-y;
+}
+
+/* ---- Cards ---- */
+.vc-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--vc-card-w);
+  height: var(--vc-card-h);
+  margin-left: calc(var(--vc-card-w) / -2);
+  margin-top: calc(var(--vc-card-h) / -2);
+  border-radius: 14px;
+  overflow: hidden;
+  background: #000;
+  border: 5px solid var(--vc-border);
+  box-shadow:
+    0 24px 50px -20px rgba(0, 0, 0, 0.45),
+    0 12px 28px -16px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transition:
+    transform var(--vc-duration) var(--vc-ease),
+    opacity var(--vc-duration) var(--vc-ease),
+    filter var(--vc-duration) var(--vc-ease),
+    box-shadow var(--vc-duration) var(--vc-ease);
+}
+
+.vc-card__media {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.vc-card__thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+.vc-card iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+.vc-card__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  border: 0;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: rgba(0, 0, 0, 0.62);
+  color: #fff;
+  cursor: pointer;
+  z-index: 4;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-2px);
+  transition: opacity 160ms ease, transform 160ms ease, background 160ms ease;
+}
+.vc-card__close:hover { background: rgba(0, 0, 0, 0.8); }
+
+/* Caption */
+.vc-card__chrome {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 16px 18px 18px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0));
+  color: #fff;
+  z-index: 2;
+}
+.vc-card__num {
+  font-size: 11px;
+  font-weight: 500;
+  opacity: 0.75;
+  letter-spacing: 0.08em;
+}
+.vc-card__name {
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 2px;
+  letter-spacing: -0.01em;
+}
+
+/* Play button (only shown on the centered card) */
+.vc-card__play {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 76px;
+  height: 76px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 0;
+  color: #0a0a0d;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  transition: transform 200ms var(--vc-ease), background 200ms var(--vc-ease);
+  z-index: 3;
+}
+.vc-card__play:hover { transform: scale(1.08); background: #fff; }
+.vc-card__play svg { width: 28px; height: 28px; margin-left: 4px; }
+
+/* Non-active cards are dimmed and cannot be played */
+.vc-card:not([data-pos="0"]) { filter: brightness(0.55) saturate(0.7); }
+.vc-card:not([data-pos="0"]) .vc-card__play { display: none; }
+
+/* Active (centered) card */
+.vc-card[data-pos="0"] {
+  cursor: default;
+  filter: brightness(1);
+  z-index: 50 !important;
+  box-shadow:
+    0 40px 80px -16px rgba(0, 0, 0, 0.55),
+    0 16px 36px -18px rgba(0, 0, 0, 0.45);
+}
+
+.vc-card[data-pos="0"][data-loading="true"] .vc-card__close,
+.vc-card[data-pos="0"][data-playing="true"] .vc-card__close {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* Depth stacking order */
+.vc-card[data-pos="-2"],
+.vc-card[data-pos="2"] { z-index: 1; }
+.vc-card[data-pos="-1"],
+.vc-card[data-pos="1"] { z-index: 10; }
+
+/* =============================================================
+   ROTATE TRANSITION (the only mode in this package)
+   ============================================================= */
+.vc-card[data-pos="0"]  { transform: translateX(0)      rotateZ(0)      scale(1);    opacity: 1; }
+.vc-card[data-pos="-1"] { transform: translateX(-250px) rotateZ(-14deg) scale(0.78); opacity: 0.85; }
+.vc-card[data-pos="1"]  { transform: translateX(250px)  rotateZ(14deg)  scale(0.78); opacity: 0.85; }
+.vc-card[data-pos="-2"] { transform: translateX(-450px) rotateZ(-26deg) scale(0.58); opacity: 0.55; }
+.vc-card[data-pos="2"]  { transform: translateX(450px)  rotateZ(26deg)  scale(0.58); opacity: 0.55; }
+
+/* Cards further than ±2 stay hidden offstage */
+.vc-card[data-hidden="true"] { opacity: 0; pointer-events: none; }
+
+/* ---- Wrap-around handling: fade out in place, snap, fade in
+   (prevents a card from flying across the whole stage) ---- */
+.vc-card.vc-fade-out  { opacity: 0 !important; transition: opacity 220ms ease !important; }
+.vc-card.vc-no-anim   { transition: none !important; }
+
+/* While dragging, disable transitions for 1:1 finger tracking */
+.vc-carousel.vc-dragging .vc-card { transition: none !important; }
+
+/* ---- Controls (dots + speed) ---- */
+
+.vc-controls {
+  display: flex;
+  align-items: center;
+  margin-top: 40px;
+  justify-content: center;
+}
+
+.vc-dots { display: flex; gap: 8px; }
+.vc-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.35);
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  transition: width 180ms var(--vc-ease), background 180ms var(--vc-ease);
+}
+.vc-dot.is-active { width: 28px; background: #fff; }
+
+/* =============================================================
+   RESPONSIVE — compress the layout on small screens
+   ============================================================= */
+@media (max-width: 900px) {
+  .vc-root {
+    --vc-card-w: 200px;
+    --vc-card-h: 356px;
+  }
+  .vc-nav { width: 40px; height: 40px; }
+  .vc-nav--prev { left: 4px; }
+  .vc-nav--next { right: 4px; }
+  .vc-title { font-size: clamp(20px, 5vw, 28px); margin-bottom: 24px; }
+
+  .vc-card[data-pos="-1"] { transform: translateX(-135px) rotateZ(-10deg) scale(0.74); }
+  .vc-card[data-pos="1"]  { transform: translateX(135px)  rotateZ(10deg)  scale(0.74); }
+  .vc-card[data-pos="-2"] { transform: translateX(-225px) rotateZ(-18deg) scale(0.54); }
+  .vc-card[data-pos="2"]  { transform: translateX(225px)  rotateZ(18deg)  scale(0.54); }
+}
